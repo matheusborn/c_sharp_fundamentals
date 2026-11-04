@@ -40,12 +40,48 @@ internal class Program
           Menu();
 
 
+        // Get number from user
+        int GetNumberFromUser(string prompt)
+        {
+            string? input;
+            bool isNumber;
+
+            do
+            {
+                WriteLine(prompt);
+                input = ReadLine();
+
+                isNumber = (Int32.TryParse(input, out int number));
+                if (isNumber)
+                {
+                    return number;
+                }
+                else
+                {
+                    WriteLine($"{input} is not a number, please enter a valid number\n");
+                }
+            } while (true);
+
+        }
 
 
         // Actions
         void Addition()
         {
-            WriteLine("Selected 1");
+            // Clear console
+            Clear();
+           
+            int numA, numB;
+
+            numA = GetNumberFromUser("Enter first number");
+            numB = GetNumberFromUser("Enter second number");
+
+            WriteLine($"{numA} + {numB} = {numA + numB}");
+
+            WriteLine("\nPress any key to continue...");
+            ReadLine();
+            Clear();
+
         }
 
         void Subtraction()
