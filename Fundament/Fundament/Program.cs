@@ -79,24 +79,67 @@ internal class Program
             WriteLine($"{numA} + {numB} = {numA + numB}");
 
             WriteLine("\nPress any key to continue...");
-            ReadLine();
+            ReadKey();
             Clear();
 
         }
 
         void Subtraction()
         {
-            WriteLine("Selected 2");
+            Clear();
+
+            int numA, numB;
+
+            numA = GetNumberFromUser("Enter first number");
+            numB = GetNumberFromUser("Enter second number");
+
+            WriteLine($"{numA} - {numB} = {numA - numB}");
+
+            WriteLine("\nPress any key to continue...");
+            ReadKey();
+            Clear();
         }
 
         void Multiplication()
         {
-            WriteLine("Selected 3");
+            Clear();
+
+            int numA, numB;
+
+            numA = GetNumberFromUser("Enter first number");
+            numB = GetNumberFromUser("Enter second number");
+
+            WriteLine($"{numA} * {numB} = {numA * numB}");
+
+            WriteLine("\nPress any key to continue...");
+            ReadKey();
+            Clear();
         }
 
         void Division()
         {
-            WriteLine("Selected 4");
+            Clear();
+
+            float numA, numB;
+
+            numA = GetNumberFromUser("Enter dividend number");
+
+            do
+            {
+                numB = GetNumberFromUser("Enter divisor number");
+
+                if (numB == 0)
+                {
+                    WriteLine("Divisor can't be zero");
+                }
+
+            } while (numB == 0);
+
+            WriteLine($"{numA} / {numB} = {(numA / numB)}");
+
+            WriteLine("\nPress any key to continue...");
+            ReadKey();
+            Clear();
         }
 
         void ExitProgram()
