@@ -3,7 +3,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        WriteLine("Hello, World!");
 
         // Show menu and handling function calls
         void Menu()
@@ -25,33 +24,33 @@ internal class Program
                 Action option = input switch
                 {
                     "0" => ExitProgram,
-                    "1" => Addition,
-                    "2" => Subtraction,
-                    "3" => Multiplication,
-                    "4" => Division,
-                    _ => () => WriteLine("Invalid option")
+                    "1" => () => ExecuteOperation("Addition", (a, b) => a + b, "+"),
+                    "2" => () => ExecuteOperation("Subtraction", (a, b) => a - b, "-"),
+                    "3" => () => ExecuteOperation("Multiplication", (a, b) => a * b, "*"),
+                    "4" => () => ExecuteOperation("Division", Divide, "/"),
+                    _ => () => WriteLine("Invalid Option")
                 };
 
                 option();
 
             } while (input != "0");
-        
-}
-          Menu();
+
+        }
+        Menu();
 
 
         // Get number from user
-        int GetNumberFromUser(string prompt)
+        float GetNumberFromUser(string prompt)
         {
             string? input;
             bool isNumber;
 
-            do
+            while (true)
             {
                 WriteLine(prompt);
-                input = ReadLine();
+                input = ReadLine()?.Replace(".", ",");
 
-                isNumber = (Int32.TryParse(input, out int number));
+                isNumber = (float.TryParse(input, out float number));
                 if (isNumber)
                 {
                     return number;
@@ -60,87 +59,45 @@ internal class Program
                 {
                     WriteLine($"{input} is not a number, please enter a valid number\n");
                 }
-            } while (true);
+            }
+            ;
 
         }
 
 
-        // Actions
-        void Addition()
-        {
-            // Clear console
-            Clear();
-           
-            int numA, numB;
-
-            numA = GetNumberFromUser("Enter first number");
-            numB = GetNumberFromUser("Enter second number");
-
-            WriteLine($"{numA} + {numB} = {numA + numB}");
-
-            WriteLine("\nPress any key to continue...");
-            ReadKey();
-            Clear();
-
-        }
-
-        void Subtraction()
+        // Action
+        void ExecuteOperation(
+            string operationName,
+            Func<float, float, float> operation,
+            string symbol)
         {
             Clear();
 
-            int numA, numB;
+            float a = GetNumberFromUser("Enter first number");
+            float b = GetNumberFromUser("Enter second number");
 
-            numA = GetNumberFromUser("Enter first number");
-            numB = GetNumberFromUser("Enter second number");
-
-            WriteLine($"{numA} - {numB} = {numA - numB}");
-
-            WriteLine("\nPress any key to continue...");
-            ReadKey();
-            Clear();
-        }
-
-        void Multiplication()
-        {
-            Clear();
-
-            int numA, numB;
-
-            numA = GetNumberFromUser("Enter first number");
-            numB = GetNumberFromUser("Enter second number");
-
-            WriteLine($"{numA} * {numB} = {numA * numB}");
-
-            WriteLine("\nPress any key to continue...");
-            ReadKey();
-            Clear();
-        }
-
-        void Division()
-        {
-            Clear();
-
-            float numA, numB;
-
-            numA = GetNumberFromUser("Enter dividend number");
-
-            do
+            try
             {
-                numB = GetNumberFromUser("Enter divisor number");
+                WriteLine($"{a} {symbol} {b} = {operation(a, b)}");
+            }
+            catch (DivideByZeroException)
+            {
+                WriteLine("Can't divide by zero");
+            }
 
-                if (numB == 0)
-                {
-                    WriteLine("Divisor can't be zero");
-                }
-
-            } while (numB == 0);
-
-            WriteLine($"{numA} / {numB} = {(numA / numB)}");
-
-            WriteLine("\nPress any key to continue...");
+            WriteLine("\nPress any key...");
             ReadKey();
             Clear();
         }
+
+        float Divide(float a, float b)
+        {
+            if (b == 0)
+                throw new DivideByZeroException();
+
+            return a / b;
+        }
+
 
         void ExitProgram()
         {
